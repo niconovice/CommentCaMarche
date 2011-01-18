@@ -1,1 +1,9 @@
-test :)
+<?php
+//no coment :p
+if(!empty($_POST)){
+	extract($_POST);
+	$valid = true;
+	if(empty($nom)){
+		$valid=false;
+		$erreurnom="vous n'avez pas rempli votre nom";
+	}

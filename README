@@ -1,1 +1,47 @@
-blob
+<?php
+//no coment :p
+if(!empty($_POST)){
+	extract($_POST);
+	$valid = true;
+	if(empty($nom)){
+		$valid=false;
+		$erreurnom="vous n'avez pas rempli votre nom";
+	}
+	if(!preg_match("/^[a-z0-9\-_.]+@[a-z0-9\-_.]+\.[a-z]{2,3}$/i",$email)){
+		$valid=false;
+		$erreurmail = "votre email n'est pas valide";
+	}
+	if(empty($email)){
+		$valid=false;
+		$erreurmail="vous n'avez pas rempli votre mail";
+	}
+	if(empty($message)){
+		$valid=false;
+		$erreurmessage="vous n'avez pas rempli votre message";
+		}
+
+	if($valid){
+		$to = "nicolas-dupuy@live.fr";
+		$sujet = $civilite." ".$nom." à contacté le site";
+		$header="from: nicolas-dupuy@live.fr \n";
+		$header .= "reply-to: $email";
+		$message= "preference de contact: ".$facon."\n" 
+		. "ma fourchette de prix est comprise entre ".$minimum." et ".$maximum." €uros\n "
+		. "je souhaite ".$acheterx." ".$vendrex." ".$louerx." ".$estimer." un bien\n"
+		. stripslashes($champ)."\n"
+		. $civilite." ".$nom."\n"
+		. stripslashes($tel)."\n"
+		. stripslashes($message)."\n";
+
+		
+		if(mail($to,$sujet,$message,$header)){
+			$erreur="votre message nous est bien parvenu";
+			unset($nom);
+			unset($email);
+			unset($message);
+		}
+		else{
+			$erreur = "erreur:votre email n'a pas été envoyé";
+		}
+	}
+}
